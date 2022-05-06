@@ -71,6 +71,7 @@ private extension BankManagerViewController {
                                      userInfo: nil,
                                      repeats: true)
         self.timer?.fire()
+        RunLoop.main.add(timer!, forMode: .common)
     }
     
     func resetTimer() {

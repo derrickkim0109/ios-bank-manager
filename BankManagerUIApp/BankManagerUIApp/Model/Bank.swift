@@ -14,6 +14,7 @@ struct Bank {
     private var currentTicketNumber = 1
     private let depositWindowQueue = OperationQueue()
     private let loanWindowQueue = OperationQueue()
+    private let bankQueue = OperationQueue()
     var bankClerk = BankClerk()
     
     init(depositClerkCount: Int, loanClerkCount: Int) {
@@ -70,11 +71,13 @@ extension Bank {
         loanWindowQueue.cancelAllOperations()
     }
     
-    private func finishNotify() {
-        depositWindowQueue.addBarrierBlock {
-            self.loanWindowQueue.addBarrierBlock {
-                self.bankClerk.delegate?.endTask()
-            }
+    private func finishNotify() {        
+        bankQueue.addOperation {
+            depositWindowQueue.waitUntilAllOperationsAreFinished()
+            loanWindowQueue.waitUntilAllOperationsAreFinished()
+        }
+        bankQueue.addBarrierBlock {
+            self.bankClerk.delegate?.endTask()
         }
     }
 }
