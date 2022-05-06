@@ -6,13 +6,19 @@
 > 리뷰어: [린생](https://github.com/jungseungyeo)
 
 ## 🔎 프로젝트 소개
+**"은행창구에서 예금업무와 대출업무를 하려는 고객들을 들어온 순서대로 각 창구에 맞는 업무를 처리하게 하는 프로젝트"**
+
+## 📺 프로젝트 실행화면
+<img src="https://user-images.githubusercontent.com/74251593/167122730-5fcc11a1-2299-4f3b-9c2c-5193475e49a5.gif" width="40%">
 
 ## 👀 PR
-[STEP 1](https://github.com/yagom-academy/ios-bank-manager/pull/148)
+- [STEP 1](https://github.com/yagom-academy/ios-bank-manager/pull/148)
 
-[STEP 2](https://github.com/yagom-academy/ios-bank-manager/pull/157)
+- [STEP 2](https://github.com/yagom-academy/ios-bank-manager/pull/157)
 
-[STEP 3](https://github.com/yagom-academy/ios-bank-manager/pull/165)
+- [STEP 3](https://github.com/yagom-academy/ios-bank-manager/pull/165)
+
+- [STEP 4](https://github.com/yagom-academy/ios-bank-manager/pull/176)
 
 ## 🛠 개발환경 및 라이브러리
 - [![swift](https://img.shields.io/badge/swift-5.0-orange)]()
@@ -36,6 +42,11 @@
 - `DI(Dependency Injection)`
 - `Protocol Oriented Programming`
 - `OperationQueue`
+- `Main RunLoop`
+- `Timer`
+- `UI`
+- `Delegate`
+- `MVC design pattern`
 
 
 ## ✨ 구현내용
@@ -45,8 +56,9 @@
 - `GDC`를 이용한 비동기 은행 업무 처리 로직 구현
 - `CFAbsoluteTimeGetCurrent()`를 이용한 로직 동작 시간 표시
 - `OperationQueue`를 이용한 전체 은행 업무 비동기 로직 구현
-
-
+- `Storyboard`없이 코드를 이용하여 `UI`구현
+- `Timer`을 이용하여 시간 측정
+- `Delegate pattern`를 이용한 타입 추상화
 
 ## 📖 학습내용
 - `Protocol`과 `associatedtype`를 이용한 제네릭 프로토콜 구현과 사용법에 대한 이해
@@ -56,6 +68,10 @@
 - `Dispatch Framework`의 종류 및 구현 방법과 사용법
 - `OperationQueue`의 구현 방법과 사용법
 - `Thread`를 관리하는 방법
+- 코드를 이용하여 `UI`구현 방법
+- `Timer` 객체 사용 방법
+- `Delegate pattern`의 이해
+- `RunLoop`에 대한 이해
 
 
 ## 🤔 STEP별 고민한 점 및 해결한 방법 
@@ -74,8 +90,8 @@ protocol Listable {
     func removeAll()
 }
 ```
-
 ---
+<br>
 
 ## [STEP 2]
 ### 1. 저희가 원하는 코드부분에서, 런타임 시작과 끝의 시간을 계산하여 총 걸린 시간을 구하기 위해 고민하였습니다.
@@ -91,6 +107,8 @@ let finishWorkTime = CFAbsoluteTimeGetCurrent() - startWorkTime
 ```
 > - 위와 같이 고객 업무를 처리하는 로직을 감싸는 위치에 코드를 작성하여 런타임의 실제 시간을 계산하였습니다.
 
+<br>
+
 ### 2. 총 걸린 시간을 구한 후, 원하는 소수점자리에서 내림과 불필요한 소수점자리를 자르기 위해 고민하였습니다.
 ```swift
 private extension Double {
@@ -103,6 +121,8 @@ private extension Double {
 > - `Double`타입을 확장하여 위와 같은 로직으로 구현하였습니다.
 >
 > - 기존의 내림(floor)메서드가 있었지만, 원하는 자리에서 내림을 하기 위해서는 커스텀을 해야 했기에, `customFloor`를 구현하여 해결하였습니다.
+
+<br>
 
 ### 3. Thread.sleep을 사용하지 않는 방향을 고민했습니다.
 
@@ -132,6 +152,8 @@ func processTask(for customer: Customer) {
 ```
 
 > - 위와 같이 `GCD`를 활용하여 문제를 해결했습니다.
+
+<br>
 
 ### 4. 불필요하게 많이 생성되는 쓰레드를 해결하는 방법에 대해 고민했습니다.
 
@@ -166,6 +188,7 @@ while !bankWaitingQueue.isEmpty {
 > - 때문에 `bankWindows.wait()`의 위치를`DispatchQueue.global().async`밖으로 이동시킴으로서 메인이 `wait()`를 읽고, 쓰레드가 작업을 완료한 뒤 메모리에서 지워진 후 다시 쓰레드를 만들어 결과적으로 은행원 수 만큼 쓰레드를 만들 수 있었습니다.
 
 ---
+<br>
 
 ## [STEP 3]
 
@@ -215,5 +238,60 @@ func assignClerkCount(at deposit: OperationQueue, and loan: OperationQueue) {
     deposit.maxConcurrentOperationCount = depositClerkCount     
     loan.maxConcurrentOperationCount = loanClerkCount
 }
-
 ```
+
+---
+<br>
+
+## [STEP 4]
+
+### 1. removeArrangedSubview() 관련 에러 🚨🚨
+> - `대기중` 스택뷰에서 `업무중` 스택뷰로 `CustomerView`가 넘어가게 되고, `업무중` 스택뷰에서 각 고객의 업무가 끝나게 되면 화면에서 사라져야 하는데, `업무중` 스택뷰의 `CGPoint(x:0, y:0)`에 `CustomerView`가 쌓이게 되는 버그가 있었습니다. 
+> - 구글링후, `removeArrangedSubview()`의 버그인것을 알게 되었고, `removeFromSuperview()` 메서드를 활용하여 해결할 수 있었습니다.
+
+```swift
+// 예시입니다
+
+stackView.arrangedSubviews[index].removeFromSuperview() // 진짜로 삭제!!
+```
+
+<br>
+
+### 2. Model은 View를 컨트롤할 수 없다. 🧐
+> - 업무가 시작하고 끝나는 것을 아는건 `Model`이였습니다. 하지만, `Model`은 `View`를 알지 못하기 때문에 `Delegate`패턴을 이용해서 `ViewController`를 대리자로 설정해 `View`를 대신 업데이트하도록 구현하였습니다.
+
+<br>
+
+### 3. 모든 작업이 끝난 후처리 😆
+> - 모든 업무가 끝나면 타이머를 멈춰야하는 후처리가 필요했습니다. 
+> - 처음엔 `DispatchGroup`을 이용하여 `enter`와 `leave`를 이용해 `notify`보냈지만, 중간에 작업을 초기화 하고 다시 시작하는 과정에서 `DispatchGroup`이 많은 버그를 발생시키는 것을 확인할 수 있었습니다. 
+> - 이는 `enter`와 `leave`가 호출되는 수 차이에 의한 것이라 생각이 들었습니다. 
+
+```swift
+private func finishNotify() {        
+        bankQueue.addOperation {
+            depositWindowQueue.waitUntilAllOperationsAreFinished()
+            loanWindowQueue.waitUntilAllOperationsAreFinished()
+        }
+        bankQueue.addBarrierBlock {
+            self.bankClerk.delegate?.endTask()
+        }
+    }
+```
+> - 위와 같이 `operationQueue`에 `addBarrierBlock`메소드를 중첩하여 위 문제를 해결했습니다.
+
+<br>
+
+### 4. 스크롤 중 Timer가 멈추는 현상 ⏱
+
+<img src="https://user-images.githubusercontent.com/91936941/167125392-e80d3d02-5303-49d7-855c-f36f36c1f43b.gif" width="30%"><br>
+
+> - 스크롤 중 타이머가 멈춰버리는 현상이 발생했습니다.
+> - 이는 `Timer`가 `MainRunLoop`위에서 동작하고 있지 않기 때문입니다.
+> - `MainRunLoop`에서 돌지 않기 때문에 스크롤 중엔 `Timer` 메소드가 호출되지 않았습니다.
+
+```swift
+RunLoop.main.add(timer, forMode: .common)
+```
+
+> - 위처럼 `Timer`를 `MainRunLoop`에 추가함으로써 위 문제를 해결했습니다.
