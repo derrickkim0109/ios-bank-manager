@@ -9,6 +9,7 @@ import Foundation
 
 struct BankAppManager {
     private var bank = Bank()
+    private var clientGenerator = ClientGenerator()
     
     mutating func run() {
         setUpMenuList()
@@ -20,7 +21,10 @@ struct BankAppManager {
         
         switch system {
         case .on:
-            bank.open()
+            guard let clients = clientGenerator.generate() else {
+                return
+            }
+            bank.open(clients)
             bank.close()
             run()
         case .off:
