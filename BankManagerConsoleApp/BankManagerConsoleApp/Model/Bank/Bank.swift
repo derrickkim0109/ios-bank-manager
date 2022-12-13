@@ -36,7 +36,7 @@ final class Bank {
         let startTime = CFAbsoluteTimeGetCurrent()
 
         DispatchQueue.global().sync {
-            arrange(bankManagers: Request.deposit.cjmanagerNumber, to: clients.deposit)
+            arrange(bankManagers: Request.deposit.managerNumber, to: clients.deposit)
             arrange(bankManagers: Request.loan.managerNumber, to: clients.loan)
 
             bankManagersGroup.wait()
