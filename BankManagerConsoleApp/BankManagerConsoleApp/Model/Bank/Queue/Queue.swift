@@ -9,7 +9,6 @@ protocol Queue {
     associatedtype Element
     
     var peek: Element? { get }
-    
     mutating func enqueue(_ data: Element)
     mutating func dequeue() -> Element?
     func isEmpty() -> Bool

@@ -28,4 +28,13 @@ extension Request: CaseIterable {
             return "대출"
         }
     }
+    
+    var managerNumber: Int {
+        switch self {
+        case .deposit:
+            return 2
+        case .loan:
+            return 1
+        }
+    }
 }
