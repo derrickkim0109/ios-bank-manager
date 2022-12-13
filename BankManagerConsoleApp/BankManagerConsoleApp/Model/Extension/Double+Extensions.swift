@@ -6,7 +6,10 @@
 //
 
 extension Double {
-    func roundDown() -> String {
-        return String(format: "%.2f", self)
+    func roundDown() -> Double {
+        guard let value = Double(String(format: "%.2f", self)) else {
+            return 0.0
+        }
+        return value
     }
 }
