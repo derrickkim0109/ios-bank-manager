@@ -58,9 +58,6 @@
 				900E46832949F9CD0040983A /* SceneDelegate.swift */,
 				900E46852949F9CD0040983A /* ViewController.swift */,
 				900E46952949FA7B0040983A /* Resources */,
-				900E468A2949F9CD0040983A /* Assets.xcassets */,
-				900E468C2949F9CD0040983A /* LaunchScreen.storyboard */,
-				900E468F2949F9CD0040983A /* Info.plist */,
 			);
 			path = BankManagerUIApp;
 			sourceTree = "<group>";
@@ -68,6 +65,9 @@
 		900E46952949FA7B0040983A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				900E468A2949F9CD0040983A /* Assets.xcassets */,
+				900E468C2949F9CD0040983A /* LaunchScreen.storyboard */,
+				900E468F2949F9CD0040983A /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -285,7 +285,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GDKDK6KP5Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BankManagerUIApp/Info.plist;
+				INFOPLIST_FILE = BankManagerUIApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -312,7 +312,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GDKDK6KP5Z;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = BankManagerUIApp/Info.plist;
+				INFOPLIST_FILE = BankManagerUIApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
