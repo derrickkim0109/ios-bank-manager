@@ -172,10 +172,10 @@
 		FD21DF4A2869892C006CCF75 /* Queue */ = {
 			isa = PBXGroup;
 			children = (
+				FD21DF59286990AD006CCF75 /* Queue.swift */,
 				FD21DF4628698907006CCF75 /* Node.swift */,
 				FD21DF4828698925006CCF75 /* LinkedList.swift */,
 				FD21DF562869905D006CCF75 /* ClientQueue.swift */,
-				FD21DF59286990AD006CCF75 /* Queue.swift */,
 			);
 			path = Queue;
 			sourceTree = "<group>";
