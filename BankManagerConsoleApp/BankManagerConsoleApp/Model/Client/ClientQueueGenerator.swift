@@ -10,7 +10,6 @@ struct ClientQueueGenerator {
         let numberOfClients = Int.random(in: 10...30)
         
         var clientQueue = ClientQueue<Client>()
-        var loanClientQueue = ClientQueue<Client>()
         
         for number in 1...numberOfClients {
             guard let requestName = Request.allCases.randomElement() else {
