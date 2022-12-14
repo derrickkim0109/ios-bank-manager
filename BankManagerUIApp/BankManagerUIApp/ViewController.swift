@@ -1,18 +1,16 @@
 //
-//  BankManagerUIApp - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom academy. All rights reserved.
-// 
+//  ViewController.swift
+//  BankManagerUIApp
+//
+//  Created by Derrick kim on 2022/12/14.
+//
 
 import UIKit
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
     }
-
-
 }
 
