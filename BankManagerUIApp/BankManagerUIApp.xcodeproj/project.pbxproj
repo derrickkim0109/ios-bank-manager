@@ -9,19 +9,25 @@
 /* Begin PBXBuildFile section */
 		900E46822949F9CD0040983A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E46812949F9CD0040983A /* AppDelegate.swift */; };
 		900E46842949F9CD0040983A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E46832949F9CD0040983A /* SceneDelegate.swift */; };
-		900E46862949F9CD0040983A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E46852949F9CD0040983A /* ViewController.swift */; };
+		900E46862949F9CD0040983A /* BankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E46852949F9CD0040983A /* BankViewController.swift */; };
 		900E468B2949F9CD0040983A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900E468A2949F9CD0040983A /* Assets.xcassets */; };
 		900E468E2949F9CD0040983A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900E468C2949F9CD0040983A /* LaunchScreen.storyboard */; };
+		900E469A294A039A0040983A /* BankTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E4699294A039A0040983A /* BankTaskTableViewCell.swift */; };
+		900E469C294A044E0040983A /* BankRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E469B294A044E0040983A /* BankRecord.swift */; };
+		900E469E294A05A40040983A /* BankCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900E469D294A05A40040983A /* BankCustomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		900E467E2949F9CD0040983A /* BankManagerUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BankManagerUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		900E46812949F9CD0040983A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		900E46832949F9CD0040983A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		900E46852949F9CD0040983A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		900E46852949F9CD0040983A /* BankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankViewController.swift; sourceTree = "<group>"; };
 		900E468A2949F9CD0040983A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		900E468D2949F9CD0040983A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		900E468F2949F9CD0040983A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		900E4699294A039A0040983A /* BankTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTaskTableViewCell.swift; sourceTree = "<group>"; };
+		900E469B294A044E0040983A /* BankRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankRecord.swift; sourceTree = "<group>"; };
+		900E469D294A05A40040983A /* BankCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCustomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +60,11 @@
 		900E46802949F9CD0040983A /* BankManagerUIApp */ = {
 			isa = PBXGroup;
 			children = (
-				900E46812949F9CD0040983A /* AppDelegate.swift */,
-				900E46832949F9CD0040983A /* SceneDelegate.swift */,
-				900E46852949F9CD0040983A /* ViewController.swift */,
+				900E46962949FAFB0040983A /* Application */,
+				900E46852949F9CD0040983A /* BankViewController.swift */,
+				900E469D294A05A40040983A /* BankCustomView.swift */,
+				900E469B294A044E0040983A /* BankRecord.swift */,
+				900E4699294A039A0040983A /* BankTaskTableViewCell.swift */,
 				900E46952949FA7B0040983A /* Resources */,
 			);
 			path = BankManagerUIApp;
@@ -70,6 +78,15 @@
 				900E468F2949F9CD0040983A /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		900E46962949FAFB0040983A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				900E46812949F9CD0040983A /* AppDelegate.swift */,
+				900E46832949F9CD0040983A /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,8 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				900E46862949F9CD0040983A /* ViewController.swift in Sources */,
+				900E469C294A044E0040983A /* BankRecord.swift in Sources */,
+				900E46862949F9CD0040983A /* BankViewController.swift in Sources */,
 				900E46822949F9CD0040983A /* AppDelegate.swift in Sources */,
+				900E469E294A05A40040983A /* BankCustomView.swift in Sources */,
+				900E469A294A039A0040983A /* BankTaskTableViewCell.swift in Sources */,
 				900E46842949F9CD0040983A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
