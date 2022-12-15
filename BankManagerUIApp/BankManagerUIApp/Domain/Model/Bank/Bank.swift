@@ -13,29 +13,22 @@ final class Bank {
 
     private let depositBankManagerOperation = OperationQueue()
     private let loanBankManagerOperation = OperationQueue()
-
+    private let completionOperation = OperationQueue()
+    
     init() {
         depositBankManagerOperation.maxConcurrentOperationCount = 2
         loanBankManagerOperation.maxConcurrentOperationCount = 1
     }
 
-    func open(clients: ClientQueue<Client>) {
-        let startTime = CFAbsoluteTimeGetCurrent()
-
-        arrange(to: clients)
-
-        let closeTime = CFAbsoluteTimeGetCurrent()
-        let elapsedTime = closeTime - startTime
-        reportSummary(elapsedTime: elapsedTime)
+    func fetchDelegate(_ delegate: BankManagerable) {
+        bankManager.delegate = delegate
     }
 
-    func close() {
-        totalProcessingTime = 0.0
-        bankManager.clearTotalVisitedClientsRecord()
+    func open(clients: ClientQueue<Client>) {
+        arrange(to: clients)
     }
 
     private func arrange(to queue: ClientQueue<Client>) {
-
         while let client = queue.dequeue() {
             let bankManager = client.request
 
@@ -51,11 +44,13 @@ final class Bank {
             }
         }
 
-        loanBankManagerOperation.waitUntilAllOperationsAreFinished()
-        depositBankManagerOperation.waitUntilAllOperationsAreFinished()
-    }
+        completionOperation.addOperation { [weak self] in
+            self?.loanBankManagerOperation.waitUntilAllOperationsAreFinished()
+            self?.depositBankManagerOperation.waitUntilAllOperationsAreFinished()
+        }
 
-    private func reportSummary(elapsedTime: CFAbsoluteTime) {
-
+        completionOperation.addOperation { [weak self] in
+            self?.bankManager.delegate?.terminateTask()
+        }
     }
 }
