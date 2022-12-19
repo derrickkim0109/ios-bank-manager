@@ -11,12 +11,14 @@ final class BankManager {
     weak var delegate: BankManagerable?
 
     func processTask(from client: Client) {
-        delegate?.startTask(for: client)
-        processRequest(from: client)
-        delegate?.finishTask(for: client)
-    }
+        let taskGroup = DispatchGroup()
 
-    private func processRequest(from client: Client) {
-        Thread.sleep(forTimeInterval: client.request.processingTime)
+        delegate?.startTask(for: client)
+        taskGroup.enter()
+        DispatchQueue.global().asyncAfter(deadline: .now() + client.request.processingTime) { [weak self] in
+            self?.delegate?.finishTask(for: client)
+            taskGroup.leave()
+        }
+        taskGroup.wait()
     }
 }
