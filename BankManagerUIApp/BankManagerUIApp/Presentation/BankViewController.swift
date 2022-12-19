@@ -8,9 +8,11 @@
 import UIKit
 
 final class BankViewController: UIViewController {
+    }
+
     private lazy var rootStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [addAndResetbuttonStackView,
-                                                       workingTime,
+                                                       workingTimeLabel,
                                                        waitingAndWoringLabelStackView,
                                                        waitingAndWoringTableViewStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +32,7 @@ final class BankViewController: UIViewController {
 
     private let addClientButton: UIButton = {
         let button = UIButton()
-        button.setTitle("고객 10명 추가", for: .normal)
+        button.setTitle(Const.addTenClients, for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.textAlignment = .center
         return button
@@ -38,14 +40,14 @@ final class BankViewController: UIViewController {
 
     private let resetButton: UIButton = {
         let button = UIButton()
-        button.setTitle("초기화", for: .normal)
+        button.setTitle(Const.reset, for: .normal)
         button.setTitleColor(.red, for: .normal)
         return button
     }()
 
-    private let workingTime: UILabel = {
+    private let workingTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "업무시간 - 04:33:253"
+        label.text = Const.workingTimeLabel + Const.time
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         return label
@@ -61,7 +63,7 @@ final class BankViewController: UIViewController {
 
     private let waitingLabel: UILabel = {
         let label = UILabel()
-        label.text = "대기중"
+        label.text = Const.waiting
         label.textColor = .white
         label.backgroundColor = .systemGreen
         label.textAlignment = .center
@@ -71,7 +73,7 @@ final class BankViewController: UIViewController {
 
     private let workingLabel: UILabel = {
         let label = UILabel()
-        label.text = "업무중"
+        label.text = Const.working
         label.textColor = .white
         label.backgroundColor = .systemBlue
         label.textAlignment = .center
@@ -109,8 +111,8 @@ final class BankViewController: UIViewController {
             rootStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
-            workingTime.heightAnchor.constraint(equalTo: waitingAndWoringLabelStackView.heightAnchor),
-            workingTime.heightAnchor.constraint(equalTo: addAndResetbuttonStackView.heightAnchor, multiplier: 1.5)
+            workingTimeLabel.heightAnchor.constraint(equalTo: waitingAndWoringLabelStackView.heightAnchor),
+            workingTimeLabel.heightAnchor.constraint(equalTo: addAndResetbuttonStackView.heightAnchor, multiplier: 1.5)
         ])
     }
 }
