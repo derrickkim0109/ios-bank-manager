@@ -8,6 +8,10 @@
 import UIKit
 
 final class BankViewController: UIViewController {
+    private let bank = Bank()
+
+    private var lastTicketNumber = 1
+
     private var taskTimer: Timer?
     private var taskTime: Int = 0 {
         didSet {
@@ -95,8 +99,8 @@ final class BankViewController: UIViewController {
         return stackView
     }()
 
-    private let waitingTableView = BankCustomView()
-    private let workingTableView = BankCustomView()
+    private lazy var waitingTableView = BankCustomView()
+    private lazy var workingTableView = BankCustomView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,8 +110,9 @@ final class BankViewController: UIViewController {
     private func setupDefault() {
         view.backgroundColor = .white
         view.addSubview(rootStackView)
-
         configureLayouts()
+        configureButtons()
+        bank.fetchDelegate(self)
     }
 
     private func configureLayouts() {
@@ -120,6 +125,15 @@ final class BankViewController: UIViewController {
             workingTimeLabel.heightAnchor.constraint(equalTo: waitingAndWoringLabelStackView.heightAnchor),
             workingTimeLabel.heightAnchor.constraint(equalTo: addAndResetbuttonStackView.heightAnchor, multiplier: 1.5)
         ])
+    }
+
+    private func configureButtons() {
+        addClientButton.addTarget(self,
+                                  action: #selector(didTapAddClients(_:)),
+                                  for: .touchUpInside)
+        resetButton.addTarget(self,
+                              action: #selector(didTapReset(_:)),
+                              for: .touchUpInside)
     }
 
     private enum Const {
@@ -190,6 +204,25 @@ extension BankViewController {
     private func resetRecord() {
         waitingTableView.model.removeAll()
         workingTableView.model.removeAll()
+    }
+}
+
+extension BankViewController: BankManagerable {
+    func startTask(for client: Client) {
+        OperationQueue.main.addOperation { [weak self] in
+            self?.waitingTableView.remove(client.pickedUpTicket)
+            self?.workingTableView.update(client.pickedUpTicket)
+        }
+    }
+
+    func finishTask(for client: Client) {
+        OperationQueue.main.addOperation { [weak self] in
+            self?.workingTableView.remove(client.pickedUpTicket)
+        }
+    }
+
+    func terminateTask() {
+        stopTimer()
     }
 }
 }
