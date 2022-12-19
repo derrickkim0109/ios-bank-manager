@@ -6,8 +6,6 @@
 
 
 ## 📱 실행화면
-<img src="" width="20%">
-
 |BankView|
 |:--:|
 |<img src="https://user-images.githubusercontent.com/74251593/167122730-5fcc11a1-2299-4f3b-9c2c-5193475e49a5.gif" width="200" height="350">|
