@@ -115,5 +115,16 @@ final class BankViewController: UIViewController {
             workingTimeLabel.heightAnchor.constraint(equalTo: addAndResetbuttonStackView.heightAnchor, multiplier: 1.5)
         ])
     }
+
+    private enum Const {
+        static let addTenClients = "고객 10명 추가"
+        static let reset = "초기화"
+        static let workingTimeLabel = "업무시간 - "
+        static let time = "00:00:000"
+        static let waiting = "대기중"
+        static let working = "업무중"
+        static let colons = ":"
+    }
+}
 }
 
