@@ -8,6 +8,12 @@
 import UIKit
 
 final class BankViewController: UIViewController {
+    private var taskTimer: Timer?
+    private var taskTime: Int = 0 {
+        didSet {
+            let (minute, second, millisecond) = taskTime.detailTime()
+            workingTimeLabel.text = Const.workingTimeLabel + minute + Const.colons + second + Const.colons + millisecond
+        }
     }
 
     private lazy var rootStackView: UIStackView = {
@@ -124,6 +130,66 @@ final class BankViewController: UIViewController {
         static let waiting = "대기중"
         static let working = "업무중"
         static let colons = ":"
+    }
+}
+
+extension BankViewController {
+    @objc private func didTapAddClients(_ sender: UIButton) {
+        run()
+    }
+
+    @objc private func didTapReset(_ sender: UIButton) {
+        resetTimer()
+        resetRecord()
+        lastTicketNumber = 1
+    }
+
+    @objc private func timeUp() {
+        taskTime += 1
+    }
+
+    private func run() {
+        addClients()
+        setupTimer()
+    }
+
+    private func addClients() {
+        let clientGenerator = ClientQueueGenerator()
+        let clients = clientGenerator.generate(lastTicketNumber)
+
+        waitingTableView.model += clientGenerator.setupClientList()
+        bank.open(clients: clients)
+
+        lastTicketNumber += 10
+    }
+
+    private func setupTimer() {
+        taskTimer = Timer.scheduledTimer(timeInterval: 0.001,
+                                        target: self,
+                                        selector: #selector(timeUp),
+                                        userInfo: nil,
+                                        repeats: true)
+        taskTimer?.fire()
+
+        RunLoop.main.add(taskTimer!, forMode: .common)
+    }
+
+    private func stopTimer() {
+        taskTimer?.invalidate()
+        taskTimer = nil
+    }
+
+    private func resetTimer() {
+        taskTimer?.invalidate()
+        taskTimer = nil
+        taskTime = 0
+        lastTicketNumber = 1
+        bank.stopTask()
+    }
+
+    private func resetRecord() {
+        waitingTableView.model.removeAll()
+        workingTableView.model.removeAll()
     }
 }
 }
