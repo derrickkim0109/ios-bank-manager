@@ -28,6 +28,11 @@ final class Bank {
         arrange(to: clients)
     }
 
+    func stopTask() {
+        depositBankManagerOperation.cancelAllOperations()
+        loanBankManagerOperation.cancelAllOperations()
+    }
+
     private func arrange(to queue: ClientQueue<Client>) {
         while let client = queue.dequeue() {
             let bankManager = client.request
