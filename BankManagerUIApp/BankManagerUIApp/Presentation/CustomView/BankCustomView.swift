@@ -16,7 +16,12 @@ class BankCustomView: UIView, UITableViewDelegate {
     }
 
     private lazy var dataSource = self.configureDataSource()
-    private let sampleData = BankRecord.sample
+
+    var model: [BankRecord] = [] {
+        didSet {
+            updateDataSource(data: model)
+        }
+    }
 
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -42,7 +47,7 @@ class BankCustomView: UIView, UITableViewDelegate {
 
         tableView.delegate = self
         configureLayout()
-        updateDataSource(data: sampleData)
+        updateDataSource(data: model)
     }
 
     private func configureLayout() {
@@ -73,5 +78,17 @@ class BankCustomView: UIView, UITableViewDelegate {
         snapshot.appendItems(data)
 
         dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
+    }
+
+    func update(_ data: BankRecord) {
+        model.append(data)
+    }
+
+    func remove(_ data: BankRecord) {
+        for (index, record) in model.enumerated() {
+            if record.task == data.task {
+                model.remove(at: index)
+            }
+        }
     }
 }
